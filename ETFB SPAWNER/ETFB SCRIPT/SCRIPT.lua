@@ -1,258 +1,159 @@
--- // Configuration
-local branding = "SWIFTKERNEL0" -- Change this to "Custom" or whatever you like!
+--[=[
+ d888b  db    db d888888b      .d888b.      db      db    db  .d8b.  
+88' Y8b 88    88   `88'        VP  `8D      88      88    88 d8' `8b 
+88      88    88    88            odD'      88      88    88 88ooo88 
+88  ooo 88    88    88          .88'        88      88    88 88~~~88 
+88. ~8~ 88b  d88   .88.        j88.         88booo. 88b  d88 88   88    @uniquadev
+ Y888P  ~Y8888P' Y888888P      888888D      Y88888P ~Y8888P' YP   YP  CONVERTER 
+]=]
 
--- // Setup
-local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
-local players = game:GetService("Players")
-local cs = game:GetService("CollectionService")
-local lp = players.LocalPlayer
+-- Instances: 16 | Scripts: 0 | Modules: 0 | Tags: 0
+local G2L = {};
 
-local petdata = {
-    Secret = {
-        "Matteo", "Gattatino Neonino", "Statutino Libertino", "Unclito Samito",
-        "Gatattino Donutino", "Espresso Signora", "Los Tungtungtungcitos", "Los Combinasionas",
-        "Aura Farma", "Rainbow 67", "Fragola La La La", "Eek Eek Eek Sahur",
-        "Bambooini Bombini", "Mastodontico Telepiedone", "La Vacca Black Hole Goat",
-        "Tractoro Dinosauro", "Capybara Monitora", "Patatino Astronauta", "Patito Dinerito",
-        "Onionello Penguini", "Sausaggini Sanitario", "Marietti Frigo",
-        "Tartarughi Attrezzini", "Kissarini Heartini", "Scaldarino Derpino"
-    },
-    Celestial = {
-        "Job Job Job Sahur", "Dug Dug Dug", "Bisonte Giuppitere", "Alessio",
-        "Esok Sekolah", "Diamantusa", "Caffe Trinity", "Avocadini Antilopini",
-        "Los Orcaleritos", "Zung Zung Zung Lazur", "La Malita", "Money Elephant",
-        "Capuccino Policia", "Rattini Machini", "Polpo Semaforini",
-        "Cioccolatone Draghettone", "Ketupastro Infernetto"
-    },
-    Divine = {
-        "Bulbito Bandito Traktorito", "Burgerini Bearini", "Strawberry Elephant",
-        "Martino Gravitino", "Galactio Fantasma", "Grappellino D'Oro", "Din Din Vaultero",
-        "Rubichetto Cubini", "Glacierello Infernetti", "Freezeti Cobretti",
-        "Biscotti Macarotti", "Cupitron Consoletron", "Explodini Cataclismi",
-        "Pastapot Infernotto", "Draculini Meowlini", "Don Magmito"
-    },
-}
+-- StarterGui.ScreenGui
+G2L["1"] = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"));
+G2L["1"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling;
 
-local mutations = {
-    "None", "Emerald", "Gold", "Blood", "Electric", "Admin",
-    "Diamond", "Radioactive", "UFO", "Money", "Candy", "Doom",
-    "Gamer", "Hacker", "Lucky"
-}
 
-local state = {
-    rarity   = "Secret",
-    pet      = petdata["Secret"][1],
-    mutation = "None",
-    level    = 100,
-    scale    = 1.2,
-}
+-- StarterGui.ScreenGui.MainFrame
+G2L["2"] = Instance.new("Frame", G2L["1"]);
+G2L["2"]["BorderSizePixel"] = 0;
+G2L["2"]["BackgroundColor3"] = Color3.fromRGB(25, 25, 25);
+G2L["2"]["Size"] = UDim2.new(0, 302, 0, 302);
+G2L["2"]["Position"] = UDim2.new(0.08498, 0, 0.14667, 0);
+G2L["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["2"]["Name"] = [[MainFrame]];
 
--- // Functions
-local function getmybase()
-    local bf = workspace:FindFirstChild("Bases")
-    if not bf then return nil end
-    for _, base in pairs(bf:GetChildren()) do
-        local tp = base:FindFirstChild("Title")
-        if tp then
-            local tg = tp:FindFirstChild("TitleGui")
-            if tg then
-                local fr = tg:FindFirstChild("Frame")
-                if fr then
-                    local pn = fr:FindFirstChild("PlayerName")
-                    if pn and (string.find(pn.Text, lp.Name) or string.find(pn.Text, lp.DisplayName)) then
-                        return base
-                    end
-                end
-            end
-        end
-    end
-end
 
-local function getfirstemptyslot(base)
-    for i = 1, 50 do
-        local s = base:FindFirstChild("slot " .. i .. " brainrot")
-        if s and not s:FindFirstChild("VisualPetContainer") and not s:FindFirstChildWhichIsA("Model") then
-            return s
-        end
-    end
-end
+-- StarterGui.ScreenGui.MainFrame.UICorner
+G2L["3"] = Instance.new("UICorner", G2L["2"]);
+G2L["3"]["CornerRadius"] = UDim.new(0, 12);
 
-local function spawnpet()
-    local base = getmybase()
-    if not base then warn("[" .. branding .. "] Base not found!") return end
-    local slot = getfirstemptyslot(base)
-    if not slot then warn("[" .. branding .. "] No empty slot!") return end
 
-    local cont = Instance.new("Folder")
-    cont.Name = "VisualPetContainer"
-    cont.Parent = slot
+-- StarterGui.ScreenGui.MainFrame.Title
+G2L["4"] = Instance.new("TextLabel", G2L["2"]);
+G2L["4"]["TextWrapped"] = true;
+G2L["4"]["BorderSizePixel"] = 0;
+G2L["4"]["TextSize"] = 14;
+G2L["4"]["TextScaled"] = true;
+G2L["4"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["4"]["FontFace"] = Font.new([[rbxasset://fonts/families/FredokaOne.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["4"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["4"]["BackgroundTransparency"] = 1;
+G2L["4"]["Size"] = UDim2.new(0, 302, 0, 47);
+G2L["4"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["4"]["Text"] = [[Trade Scam]];
+G2L["4"]["Name"] = [[Title]];
 
-    local root = Instance.new("Part")
-    root.Name = "Root"
-    root.Transparency = 1
-    root.Anchored = true
-    root.CFrame = (slot:IsA("BasePart") and slot.CFrame) or slot.PrimaryPart.CFrame
-    root.Parent = cont
 
-    cont:SetAttribute("BrainrotName", state.pet)
-    cont:SetAttribute("Scale", state.scale)
-    cont:SetAttribute("Level", state.level)
-    cont:SetAttribute("StatsOverhead", true)
-    cont:SetAttribute("Mutation", state.mutation)
-    cs:AddTag(cont, "RenderBrainrot")
+-- StarterGui.ScreenGui.MainFrame.Line
+G2L["5"] = Instance.new("Frame", G2L["2"]);
+G2L["5"]["BorderSizePixel"] = 0;
+G2L["5"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["5"]["Size"] = UDim2.new(0, 302, 0, 1);
+G2L["5"]["Position"] = UDim2.new(0, 0, 0.15337, 0);
+G2L["5"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["5"]["Name"] = [[Line]];
 
-    print(branding .. " Spawning.. : " .. state.pet)
-end
 
--- // UI Window
-local window = Rayfield:CreateWindow({
-    Name = branding .. " Spawner",
-    LoadingTitle = branding,
-    LoadingSubtitle = "spawner ez",
-    Theme = "Default",
-    DisableRayfieldPrompts = true,
-    DisableBuildWarnings = true,
-    ConfigurationSaving = { Enabled = false },
-    KeySystem = false,
-})
+-- StarterGui.ScreenGui.MainFrame.Line.UIGradient
+G2L["6"] = Instance.new("UIGradient", G2L["5"]);
+G2L["6"]["Color"] = ColorSequence.new{ColorSequenceKeypoint.new(0.000, Color3.fromRGB(0, 0, 0)),ColorSequenceKeypoint.new(0.500, Color3.fromRGB(255, 255, 255)),ColorSequenceKeypoint.new(1.000, Color3.fromRGB(0, 0, 0))};
 
--- // Tabs
-local tabsecret = window:CreateTab("Secret", "star")
-tabsecret:CreateSection("Select Pet")
 
-local secretpetnames = {}
-for _, p in ipairs(petdata.Secret) do table.insert(secretpetnames, p) end
+-- StarterGui.ScreenGui.MainFrame.Version
+G2L["7"] = Instance.new("TextLabel", G2L["2"]);
+G2L["7"]["TextWrapped"] = true;
+G2L["7"]["BorderSizePixel"] = 0;
+G2L["7"]["TextSize"] = 14;
+G2L["7"]["TextScaled"] = true;
+G2L["7"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["7"]["FontFace"] = Font.new([[rbxasset://fonts/families/FredokaOne.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["7"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["7"]["BackgroundTransparency"] = 1;
+G2L["7"]["Size"] = UDim2.new(0, 302, 0, 17);
+G2L["7"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["7"]["Text"] = [[v1.0]];
+G2L["7"]["Name"] = [[Version]];
+G2L["7"]["Position"] = UDim2.new(0, 0, 0.17904, 0);
 
-tabsecret:CreateDropdown({
-    Name = "Pet",
-    Options = secretpetnames,
-    CurrentOption = { secretpetnames[1] },
-    MultipleOptions = false,
-    Flag = "SecretPet",
-    Callback = function(val)
-        state.rarity = "Secret"
-        state.pet = val[1]
-    end,
-})
 
-local tabcelestial = window:CreateTab("Celestial", "sparkles")
-tabcelestial:CreateSection("Select Pet")
+-- StarterGui.ScreenGui.MainFrame.ForceAccept
+G2L["8"] = Instance.new("TextButton", G2L["2"]);
+G2L["8"]["TextWrapped"] = true;
+G2L["8"]["BorderSizePixel"] = 0;
+G2L["8"]["TextSize"] = 30;
+G2L["8"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["8"]["BackgroundColor3"] = Color3.fromRGB(0, 209, 255);
+G2L["8"]["FontFace"] = Font.new([[rbxasset://fonts/families/FredokaOne.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["8"]["Size"] = UDim2.new(0, 218, 0, 57);
+G2L["8"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["8"]["Text"] = [[Force Accept]];
+G2L["8"]["Name"] = [[ForceAccept]];
+G2L["8"]["Position"] = UDim2.new(0.13907, 0, 0.27773, 0);
 
-local celestialpetnames = {}
-for _, p in ipairs(petdata.Celestial) do table.insert(celestialpetnames, p) end
 
-tabcelestial:CreateDropdown({
-    Name = "Pet",
-    Options = celestialpetnames,
-    CurrentOption = { celestialpetnames[1] },
-    MultipleOptions = false,
-    Flag = "CelestialPet",
-    Callback = function(val)
-        state.rarity = "Celestial"
-        state.pet = val[1]
-    end,
-})
+-- StarterGui.ScreenGui.MainFrame.ForceAccept.UICorner
+G2L["9"] = Instance.new("UICorner", G2L["8"]);
+G2L["9"]["CornerRadius"] = UDim.new(0, 12);
 
-local tabdivine = window:CreateTab("Divine", "crown")
-tabdivine:CreateSection("Select Pet")
 
-local divinepetnames = {}
-for _, p in ipairs(petdata.Divine) do table.insert(divinepetnames, p) end
+-- StarterGui.ScreenGui.MainFrame.ForceAccept.UIStroke
+G2L["a"] = Instance.new("UIStroke", G2L["8"]);
+G2L["a"]["Thickness"] = 3;
+G2L["a"]["Color"] = Color3.fromRGB(0, 146, 255);
 
-tabdivine:CreateDropdown({
-    Name = "Pet",
-    Options = divinepetnames,
-    CurrentOption = { divinepetnames[1] },
-    MultipleOptions = false,
-    Flag = "DivinePet",
-    Callback = function(val)
-        state.rarity = "Divine"
-        state.pet = val[1]
-    end,
-})
 
-local tabsettings = window:CreateTab("Settings", "settings")
-tabsettings:CreateSection("Pet Options")
+-- StarterGui.ScreenGui.MainFrame.TextButton
+G2L["b"] = Instance.new("TextButton", G2L["2"]);
+G2L["b"]["TextWrapped"] = true;
+G2L["b"]["BorderSizePixel"] = 0;
+G2L["b"]["TextSize"] = 30;
+G2L["b"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["b"]["BackgroundColor3"] = Color3.fromRGB(255, 71, 74);
+G2L["b"]["FontFace"] = Font.new([[rbxasset://fonts/families/FredokaOne.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["b"]["Size"] = UDim2.new(0, 218, 0, 57);
+G2L["b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["b"]["Text"] = [[Freeze Victim]];
+G2L["b"]["Position"] = UDim2.new(0.13907, 0, 0.51147, 0);
 
-tabsettings:CreateDropdown({
-    Name = "Mutation",
-    Options = mutations,
-    CurrentOption = { "None" },
-    MultipleOptions = false,
-    Flag = "Mutation",
-    Callback = function(val)
-        state.mutation = val[1]
-    end,
-})
 
-tabsettings:CreateSlider({
-    Name = "Level",
-    Range = { 1, 1000 },
-    Increment = 1,
-    Suffix = "",
-    CurrentValue = 100,
-    Flag = "Level",
-    Callback = function(val)
-        state.level = val
-    end,
-})
+-- StarterGui.ScreenGui.MainFrame.TextButton.UICorner
+G2L["c"] = Instance.new("UICorner", G2L["b"]);
+G2L["c"]["CornerRadius"] = UDim.new(0, 12);
 
-tabsettings:CreateSlider({
-    Name = "Scale",
-    Range = { 0.1, 5 },
-    Increment = 0.1,
-    Suffix = "x",
-    CurrentValue = 1.2,
-    Flag = "Scale",
-    Callback = function(val)
-        state.scale = val
-    end,
-})
 
--- // Spawn Buttons
-tabsettings:CreateSection("Spawn")
+-- StarterGui.ScreenGui.MainFrame.TextButton.UIStroke
+G2L["d"] = Instance.new("UIStroke", G2L["b"]);
+G2L["d"]["Thickness"] = 3;
+G2L["d"]["Color"] = Color3.fromRGB(133, 0, 3);
 
-tabsettings:CreateButton({
-    Name = "Spawn Pet",
-    Callback = function()
-        spawnpet()
-        Rayfield:Notify({
-            Title = branding .. " Spawning..",
-            Content = "Spawned: " .. state.pet,
-            Duration = 3,
-            Image = "check",
-        })
-    end,
-})
 
-tabsecret:CreateSection("Spawn")
-tabsecret:CreateButton({
-    Name = "Spawn Selected Pet",
-    Callback = function()
-        state.rarity = "Secret"
-        spawnpet()
-        Rayfield:Notify({ Title = branding .. " Spawning..", Content = "Spawned: " .. state.pet, Duration = 3, Image = "check" })
-    end,
-})
+-- StarterGui.ScreenGui.MainFrame.TextButton
+G2L["e"] = Instance.new("TextButton", G2L["2"]);
+G2L["e"]["TextWrapped"] = true;
+G2L["e"]["BorderSizePixel"] = 0;
+G2L["e"]["TextSize"] = 30;
+G2L["e"]["TextScaled"] = true;
+G2L["e"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["e"]["BackgroundColor3"] = Color3.fromRGB(136, 50, 255);
+G2L["e"]["FontFace"] = Font.new([[rbxasset://fonts/families/FredokaOne.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["e"]["Size"] = UDim2.new(0, 218, 0, 57);
+G2L["e"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["e"]["Text"] = [[Force Give All Brainrot]];
+G2L["e"]["Position"] = UDim2.new(0.13907, 0, 0.74604, 0);
 
-tabcelestial:CreateSection("Spawn")
-tabcelestial:CreateButton({
-    Name = "Spawn Selected Pet",
-    Callback = function()
-        state.rarity = "Celestial"
-        spawnpet()
-        Rayfield:Notify({ Title = branding .. " Spawning..", Content = "Spawned: " .. state.pet, Duration = 3, Image = "check" })
-    end,
-})
 
-tabdivine:CreateSection("Spawn")
-tabdivine:CreateButton({
-    Name = "Spawn Selected Pet",
-    Callback = function()
-        state.rarity = "Divine"
-        spawnpet()
-        Rayfield:Notify({ Title = branding .. " Spawning..", Content = "Spawned: " .. state.pet, Duration = 3, Image = "check" })
-    end,
-})
+-- StarterGui.ScreenGui.MainFrame.TextButton.UICorner
+G2L["f"] = Instance.new("UICorner", G2L["e"]);
+G2L["f"]["CornerRadius"] = UDim.new(0, 12);
 
-Rayfield:LoadConfiguration()n()
+
+-- StarterGui.ScreenGui.MainFrame.TextButton.UIStroke
+G2L["10"] = Instance.new("UIStroke", G2L["e"]);
+G2L["10"]["Thickness"] = 3;
+G2L["10"]["Color"] = Color3.fromRGB(76, 0, 167);
+
+
+
+return G2L["1"], require;
